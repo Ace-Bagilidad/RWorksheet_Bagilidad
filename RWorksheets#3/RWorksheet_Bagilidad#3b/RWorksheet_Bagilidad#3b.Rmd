@@ -1,0 +1,172 @@
+---
+title: "RWorksheets_Bagilidad#3b"
+output: pdf_document
+date: "2023-10-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+
+
+#1. 
+
+#a. Write the codes. 
+
+respondents <- c(1:20)
+sex <- c(2,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2)
+fathers_occupation <- c(1,3,3,3,1,2,3,1,1,1,3,2,1,3,3,1,3,1,2,1)
+persons_at_home <- c(5,7,3,8,5,9,6,7,8,4,7,5,4,7,8,8,3,11,7,6)
+siblings_at_school <- c(6,4,4,1,2,1,5,3,1,2,3,2,5,5,2,1,2,5,3,2)
+types_of_houses <- c(1,2,3,1,1,3,3,1,2,3,2,3,2,2,3,3,3,3,3,2)
+
+household_data <- data.frame(Respondents =respondents,
+                             Sex = sex,
+                             FathersOccupation = fathers_occupation,
+                             PersongsAtHome  = persons_at_home,
+                             SiblingsAtSchool  = siblings_at_school,
+                             TypeOfHouses = types_of_houses)
+household_data
+
+
+#b. Describe the data. Get the structure or the summary of the data 
+
+str(household_data)
+summary(household_data)
+
+# the data frame consists of 20 observations(rows) and 6 variables (columns)
+# the data frame consists of 6 variables (colums) with 20 observations(rows)
+# respondents - which lists each respondent's unique numeric identifier.
+# sex - represents the gender of the respondent (1 for Male and 2 for Female).
+# father's occupation - indicates the occupation of the father (1 for farmer, 2 for driver, and 3 for others)
+# persons at home - consists of number of people at home.
+# siblings at school - consists of number of siblings at the school.
+# type of house - this describes the house type (1 for wood, 2 for semi-concrete, and 3 for concrete)
+
+
+#c. Is the mean number of siblings attending is 5?
+
+means_siblings <- mean(siblings_at_school)
+means_siblings
+
+# The mean of siblings attending in school is not 5 but 2.95.
+
+#d. Extract the 1st two rows and then all the columns using the subsetting functions. Write the codes and its output.
+
+firstTwo_rows <- head(household_data, 2)
+firstTwo_rows
+
+#e. Extract 3rd and 5th row with 2nd and 4th column. Write the codes and its result.
+extract_rows <- household_data[c(3,5),c(2,4)]
+extract_rows
+
+#f. Select the variable types of houses then store the vector that results as types_houses. Write the codes.
+
+types_houses <- household_data$types_of_houses
+types_houses
+
+#g. Select only all Males respondent that their father occupation was farmer. Write the codes and its output.
+
+male_father_farmer= household_data[household_data$sex == 1 & household_data$fathers_occupation == 1,]
+male_father_farmer
+
+#h.Select only all females respondent that have greater than or equal to 5 number of siblings attending school. Write the codes and its outputs.
+
+females_greaterThan5 <- household_data[household_data$siblings_at_school >= 5,]
+females_greaterThan5
+
+#-----------------------------------------------------------------------
+
+#2.Write a R program to create an empty data frame. Using the following codes: 
+
+df = data.frame(Ints=integer(),
+                
+                Doubles=double(), Characters=character(),
+                Logicals=logical(),
+                Factors=factor(),
+                stringsAsFactors=FALSE)
+
+print("Structure of the empty dataframe:")
+print(str(df))
+
+#a. Describe the results.
+
+# df have no data frame with 0 rows and 5 columns
+# the columns has the following data type:
+# ints means integer
+# doubles is a data type that is used to store high-precision floating-point data or numbers.
+# characters is a single display unit of information equivalent to one alphabetic symbol, digit, or letter.
+# logicals is a programming, database and knowledge-representation and reasoning paradigm which is based on formal logic.
+# factors data structures that are implemented to categorize the data or represent categorical data and store it on multiple levels. 
+# 0 levels which means empty
+# can be serve as a template that can be populated with data
+
+#3. Create a .csv file of this. Save it as HouseholdData.csv
+
+New_Respondent <- c(1:10)
+New_Sex <- c("Male", "Female", "Female", "Male", "Male", "Female", "Female", "Male", "Female", "Male")
+New_Fathers_Occupation <- c(1,2,3,3,1,2,2,3,1,3)
+New_PersonsAt_Home <- c(5,7,3,8,6,4,4,2,11,6)
+New_SiblingsAt_School <- c(2,3,0,5,2,3,1,2,6,2)
+New_Types_Houses <- c("Wood", "Congrete", "Congrete", "Wood", "Semi-congrete", "Semi-congrete", "Wood", "Semi-congrete", "Semi-congrete", "Congrete")
+
+HouseholdData <- data.frame( 
+  Respondents = New_Respondent,
+  Sex = New_Sex, 
+  FatherOccupation = New_Fathers_Occupation, 
+  PersonsAtHome=New_PersonsAt_Home, 
+  SiblingsAtSchool=New_SiblingsAt_School, 
+  TypesOfHouses=New_Types_Houses)
+HouseholdData
+
+write.csv(HouseholdData, file ="HouseholdData.csv")
+
+#a.Import the csv file into the R environment. Write the codes.
+  
+imported <- read.csv("HouseholdData.csv")
+imported
+
+#b. Convert the Sex into factor using factor() function and change it into integer.[Legend: Male = 1 and Female = 2]. Write the R codes and its output.
+
+imported$Sex <- factor(imported$Sex, levels = c("Male", "Female"))
+imported$Sex<- as.integer(imported$Sex)
+imported$Sex
+
+# c. Convert the Type of Houses into factor and change it into integer. [Legend: Wood = 1; Congrete = 2; Semi-Congrete = 3]. Write the R codes and its output.
+
+imported$HouseType <- factor(imported$TypesOfHouses, levels = c("Wood", "Congrete", "Semi-congrete"))
+imported$HouseType <- as.integer(imported$HouseType)
+imported$HouseType
+
+#d.On father’s occupation, factor it as Farmer = 1; Driver = 2; and Others = 3. What is the R code and its output?
+
+imported$FatherOccupation <- factor(imported$FatherOccupation, levels = c(1,2,3), labels = c("Farmer", "Driver", "Others"))
+imported$FatherOccupation
+
+# e. Select only all females respondent that has a father whose occupation is driver. Write the codes and its output.
+
+femaleDriver <- imported[imported$Sex == 2 & imported$FatherOccupation == "Driver",]
+femaleDriver
+
+# f. Select the respondents that have greater than or equal to 5 number of siblings attending school. Write the codes and its output.
+upper_five <- imported[imported$SiblingsAtSchool >= 5,]
+upper_five 
+
+#4
+
+#The majority of the other sentiments on this day, July 14, are negative. This indicates that some subjects or occurrences generated negative attitude on that particular day.
+
+#Even if all of the attitudes increased on this day, July 15, the negative sentiment is still at its greatest. This suggests that something happened on that day that triggered feelings of dissatisfaction.
+
+#Negative attitude is still strong on July 17 and 18, while both neutral and positive sentiment is still common on these days.
+
+#There were still more negative attitudes among the others on July 20 even though all sentiments reached their lowest point. This indicates that nothing significant happened that day.
+
+#On this day, July 21, all emotions are higher, with the negative continuing dominating. This could imply that on that particular day, something happened that prompted people to react negatively.
+
+#This information could lead us to the conclusion that public opinion is subject to outside influences and changes over time.
+
+```
