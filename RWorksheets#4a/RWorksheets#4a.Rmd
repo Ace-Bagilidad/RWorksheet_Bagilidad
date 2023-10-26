@@ -74,5 +74,45 @@ print(new_order_data)
 
 #5. 
 
+read.table(file = "/cloud/project/RWorksheets#4a/import_march.csv", header = TRUE, sep = ",")
+
+reading <- read.csv("import_march.csv")
+reading
+#6.
+
+# Function to check if a number is in a specified range
+isInRange <- function(x, range) {
+ if (x < range[1] || x > range[2]) {
+    return(FALSE)
+ } else {
+    return(TRUE)
+ }
+}
+
+# Generate a random number between 1 and 50
+randomNumber <- sample(1:50, 1)
+
+# Prompt the user to input a number
+userInput <- as.integer(readline(prompt="Enter a number between 1 and 50: "))
+
+# Check if the input number is in the specified range
+if (isInRange(userInput, c(1, 50))) {
+ # Display the input number
+ print(userInput)
+} else {
+ # Display a string indicating that the input number is out of range
+ print("The number selected is beyond the range of 1 to 50")
+}
+
+# Check if the randomly generated number is 20
+if (randomNumber == 20) {
+ # Display TRUE
+ print(TRUE)
+} else {
+ # Display the randomly generated number
+ print(randomNumber)
+}
+
+
 
 ```
