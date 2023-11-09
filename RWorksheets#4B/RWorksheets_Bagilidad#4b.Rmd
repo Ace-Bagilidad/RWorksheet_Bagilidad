@@ -44,12 +44,20 @@ b <- 1
 cat("Fibonacci sequence starting from", begin, ":\n")
 cat(begin, "")
 
-repeat {
-  nextFib <- a + b
-  if (nextFib > 500) {
+repeat 
+  {
+  
+  if (a>=begin) 
+  {
+    cat(a," ")
+  }
+  
+  if (a > 337)
+  {
     break
   }
-  cat(nextFib, " ")
+  
+  nextFib <- a + b
   a <- b
   b <- nextFib
 }
@@ -62,14 +70,9 @@ cat("\n")
 
 ```{r}
 
-dataShoes <- data.frame( Shoe_Size = c(6.5,9.0,8.5,8.5,10.5,7.0,9.5,9.0,13.0,7.5,10.5,8.5,12.0,10.5, 13.0, 11.5, 8.5, 5.0, 10.0, 6.5 , 7.5, 8.5, 10.5, 8.5, 10.5, 11.0, 9.0, 13.0), 
-                         Height = c(66.0,68.0,64.5,65.0,70.0,64.0,70.0,71.0,72.0,64.0,74.5,67.0,71.0,71.0, 77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 73.0, 69.0, 72.0, 70.0, 69.0, 70.0), 
-                         Gender = c('F','F','F','F','M','F','F','F','M','F','M','F','M','M', 'M', 'M', 'F','F', 'M', 'F', 'F', 'M', 'M', 'F', 'M', 'M', 'M', 'M')
-                        )
-dataShoes
 
 
-write.csv(dataShoes, "data_shoes.csv", row.names=TRUE)
+
 
 
 
@@ -83,10 +86,10 @@ data_shoes
 data_shoes <- read.csv("data_shoes.csv")
 data_shoes
 
-male_subset <- data_shoes[data$Gender == "M",]
+male_subset <- subset(data_shoes,Gender=="M")
 male_subset
 
-female_subset <- data_shoes[data$Gender == "F",]
+female_subset <- subset(data_shoes,Gender=="F")
 female_subset
 
 ```
@@ -106,10 +109,17 @@ data <- c(Food = 60, Electricity = 10, Savings = 5, Miscellaneous = 25)
 percentages <- paste(round(100 * data / sum(data), 1), "%", sep = "")
 
 # Create a pie chart
-pie(data, labels = paste(names(data), " (", percentages, ")", sep = ""), col = rainbow(length(data)), main = "Expense Distribution")
+pie(data, 
+    labels = paste(names(data),
+    " (", percentages, ")", sep = ""), 
+    col = rainbow(length(data)), 
+    main = "Expense Distribution")
 
 # Add a legend
-legend("topright", names(data), cex = 0.10, fill = rainbow(length(data)))
+legend("topright",
+       names(data), 
+       cex = 0.10, 
+       fill = rainbow(length(data)))
 ```
 
 
@@ -181,19 +191,67 @@ legend("topright", legend = levels(iris$Species), col = 1:3, pch = 1:3, cex = 0.
 
 ```
 
-#f.Interpret the result.
-# The dataset consists of five variables (columns) and 150 observations (rows) in a data frame format.
-# Petal.Length, Petal.Width, Sepal.Length, and Sepal. Width are the names of the four numerical variables. These stand for the measures of the length and width of the petals, respectively.
-# The factor variable Species, which represents the species of iris flowers, is the sixth variable. There are three tiers to it: "setosa," "versicolor," and "virginica," denoting the many iris flower species included in the dataset.
+f.Interpret the result.
 
-#7.Import the alexa-file.xlsx. Check on the variations. Notice that there are extra whitespaces among black variants (Black Dot, Black Plus, Black Show, Black Spot). Also on the white variants (White Dot, White Plus, White Show, White Spot).
+The dataset consists of five variables (columns) and 150 observations (rows) in a data frame format. 
+
+Petal.Length, Petal.Width, Sepal.Length, and Sepal. Width are the names of the four numerical variables. These stand for the measures of the length and width of the petals, respectively.
+ 
+The factor variable Species, which represents the species of iris flowers, is the sixth variable. There are three tiers to it: "setosa," "versicolor," and "virginica," denoting the many iris flower species included in the dataset.
+
+7. Import the alexa-file.xlsx. Check on the variations. Notice that there are extra whitespaces among black variants (Black Dot, Black Plus, Black Show, Black Spot). Also on the white variants (White Dot, White Plus, White Show, White Spot).
+
+a.Rename the white and black variants by using gsub() function.
 ```{r}
-library(openxlsx)
+alexa <- read_xlsx("alexa_file.xlsx")
+alexa
 
-data <- read.xlsx("alexa-file.xlsx")
-data
 
+alexa$variation <- gsub("Black  Dot",
+                        "Black Dot",
+                        alexa$variation)
+alexa$variation <- gsub("Black  Plus",
+                        "Black Plus",
+                        alexa$variation)
+alexa$variation <- gsub("Black  Show",
+                        "Black Show",
+                        alexa$variation)
+alexa$variation <- gsub("Black  Spot",
+                        "Black Spot",
+                        alexa$variation)
+
+alexa$variation <- gsub("White  Dot",
+                        "White Dot",
+                        alexa$variation
+                    )
+
+alexa$variation <- gsub("White  Plus",
+                        "White Plus",
+                        alexa$variation
+                    )
+alexa$variation <- gsub("White  Show",
+                        "White Show",
+                        alexa$variation
+                    )
+alexa$variation <- gsub("White  Spot",
+                        "White Spot",
+                        alexa$variation
+                    )
+
+knitr::include_graphics("/cloud/project/RWorksheets#4B")
 ```
 
-                                      
+b. Get the total number of each variations and save it into another object. Save the object as variations.RData. Write the R scripts. What is its result?
+
+Hint: Use the dplyr package. Make sure to install it before loading the package.
+
+```{r}
+library(dplyr)
+
+alexa <- read_xlsx("alexa_file.xlsx")
+alexa
+variation <- alexa  %>% 
+  count(alexa$variation)
+
+```
 
