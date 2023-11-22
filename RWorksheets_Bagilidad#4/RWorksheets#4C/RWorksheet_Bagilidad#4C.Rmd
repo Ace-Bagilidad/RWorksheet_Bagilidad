@@ -1,0 +1,54 @@
+---
+title: "RWorksheet_Bagilidad#4c"
+author: "Ace Bagilidad BSIT 2-C"
+date: "2023-11-22"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. Use the dataset mpg.
+a. Show your solutions on how to import a csv file into the environment.
+
+```{r}
+
+library(readr)
+
+data_mpg <- read.csv("mpg.csv")
+data_mpg 
+
+```
+b. Which variables from mpg dataset are categorical?
+
+From the data mpg, the categorical data are the following:
+1. Transmission(trans)        
+2. Model                  
+3. Displacement(displ)        
+4. Drive Train(drv)                  
+5. class
+
+```{r}
+data(mpg)
+categorical_columns <- data_mpg %>% select_if(is.factor) %>% colnames()
+
+# Print the categorical columns
+print(categorical_columns)
+
+```
+c. Which are continuous variables?
+
+
+2. Which manufacturer has the most models in this data set? Which model has the most variations?
+Show your answer.
+```{r}
+# Assuming 'data_set' is already available in the environment
+num_variables <- ncol(data)
+print(paste("The number of variables in the data set is: ", num_variables))
+
+```
+
+
+
