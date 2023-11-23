@@ -43,12 +43,79 @@ c. Which are continuous variables?
 
 2. Which manufacturer has the most models in this data set? Which model has the most variations?
 Show your answer.
+Ans.
+The manufacturer with the most model is:  dodge 
+The model with the most variations is:  caravan 2wd
 ```{r}
-# Assuming 'data_set' is already available in the environment
-num_variables <- ncol(data)
-print(paste("The number of variables in the data set is: ", num_variables))
+manufacturer_table <- table(data_mpg$manufacturer)
+
+
+#getting the most model
+maxModel_Manufacturer <- as.character(names(manufacturer_table))[which.max(manufacturer_table)]
+
+cat("The manufacturer with the most model is: ",maxModel_Manufacturer,"\n")
+
+model_table <- table(data_mpg$model)
+maxVariation_Model <- as.character(names(model_table))[which.max(model_table)]
+
+cat("The model with the most variations is: ",maxVariation_Model)
+
+
+```
+2a. Group the manufacturers and find the unique models. Show your codes and result.
+```{r}
+models <- data.frame(Model = model, Manufacturer = manufacturer)
+models
+
+unique_models <- unique(models)
+print(unique_models)
 
 ```
 
 
+
+2b. Graph the result by using plot() and ggplot(). Write the codes and its result.
+```{r}
+
+
+
+```
+
+2. Same dataset will be used. You are going to show the relationship of the modeland the manufacturer.
+2a.
+```{r}
+library(ggplot2)
+
+ggplot(mpg, aes(model,manufacturer)) + geom_point()
+
+```
+2b. For you, is it useful? If not, how could you modify the data to make it more informative?
+
+
+
+3. Plot the model and the year using ggplot(). Use only the top 20 observations. Write the codes and
+its results
+```{r}
+data_mpg_20 <- head(data_mpg,20)
+data_mpg_20
+ggplot(data = data_mpg_20, 
+       aes(x= year, y=model,
+       color = as.factor(model))) + geom_point(alpha = 0.7)+ labs(title = "Relationship between Model, Year, and Manufacturer",
+       x = "Year",
+       y = "Model",
+       color = as.factor(data_mpg_20$model)) 
+    
+
+```
+4.  Using the pipe (%>%), group the model and get the number of cars per model. Show codes and its result
+
+```{r}
+library(dplyr)
+
+#group the number of cars per model
+
+grouped_data <- data_mpg %>% group_by(model) %>% summarise(count = n()) 
+grouped_data
+
+```
 
