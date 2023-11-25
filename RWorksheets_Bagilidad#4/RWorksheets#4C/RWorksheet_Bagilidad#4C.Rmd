@@ -31,6 +31,7 @@ From the data mpg, the categorical data are the following:
 5. class
 
 ```{r}
+library(dplyr)
 data(mpg)
 categorical_columns <- data_mpg %>% select_if(is.factor) %>% colnames()
 
@@ -294,7 +295,7 @@ junctionPlot_4
 ```{r}
 library(readxl)
 alexa_file_1 <- read_excel("/cloud/project/RWorksheets_Bagilidad#4/RWorksheets#4C/alexa_file (1).xlsx")
-View(alexa_file_1_)
+
 ```
 
 7a. How many observations does alexa_file has? What about the number of columns? Show your solution
