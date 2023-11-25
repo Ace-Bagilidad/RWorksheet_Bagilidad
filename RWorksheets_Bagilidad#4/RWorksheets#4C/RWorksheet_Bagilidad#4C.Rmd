@@ -64,11 +64,15 @@ cat("The model with the most variations is: ",maxVariation_Model)
 ```
 2a. Group the manufacturers and find the unique models. Show your codes and result.
 ```{r}
-models <- data.frame(Model = model, Manufacturer = manufacturer)
+library(dplyr)
+models <- data.frame(Manufacturer = data_mpg$manufacturer,
+                     Model = data_mpg$model)
 models
 
 unique_models <- unique(models)
-print(unique_models)
+unique_models
+
+
 
 ```
 
@@ -76,9 +80,15 @@ print(unique_models)
 
 2b. Graph the result by using plot() and ggplot(). Write the codes and its result.
 ```{r}
+library(ggplot2)
+factor_UniqueModels <- as.factor(unique_models$Manufacturer)
+plotUnique_Models <- plot(as.factor(factor_UniqueModels),
+                             main = "Unique Model per Manufacturer",
+                             
+                             cex.names = 0.8,
+                             las = 2)
 
-
-
+plotUnique_Models
 ```
 
 2. Same dataset will be used. You are going to show the relationship of the modeland the manufacturer.
@@ -86,11 +96,13 @@ print(unique_models)
 ```{r}
 library(ggplot2)
 
-ggplot(mpg, aes(model,manufacturer)) + geom_point()
+ggplot(mpg, aes(model,manufacturer)) + geom_point() + theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 2b. For you, is it useful? If not, how could you modify the data to make it more informative?
-
+ans. Yes. It's very useful to know how many models each manufacturer produces.
+To make it more interesting, I can put color codes on each point based on the classes variable and add a label using the cty variable.
 
 
 3. Plot the model and the year using ggplot(). Use only the top 20 observations. Write the codes and
@@ -98,6 +110,8 @@ its results
 ```{r}
 data_mpg_20 <- head(data_mpg,20)
 data_mpg_20
+
+
 ggplot(data = data_mpg_20, 
        aes(x= year, y=model,
        color = as.factor(model))) + geom_point(alpha = 0.7)+ labs(title = "Relationship between Model, Year, and Manufacturer",
@@ -118,4 +132,265 @@ grouped_data <- data_mpg %>% group_by(model) %>% summarise(count = n())
 grouped_data
 
 ```
+4a. Plot using geom_bar() using the top 20 observations only. The graphs shoude have a title, labels and colors. Show code and results.
+```{r}
 
+observation_20 <- head(grouped_data,20)
+observation_20
+
+observation_plot <- ggplot(observation_20,
+       aes(x = model,
+           y = count,
+           fill = model)) + 
+  geom_bar(stat = "identity") +
+   labs(title = "Top 20 Most Popular Car Models", 
+       x = "Model",
+       y = "Number of Cars") +
+   theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+observation_plot
+
+```
+4b. Plot using the geom_bar() + coord_flip() just like what is shown below. Show codes and its result.
+```{r}
+observation_20 <- head(grouped_data,20)
+observation_20
+
+observation_plot <- ggplot(grouped_data,
+       aes(x = reorder(model, count),
+           y = count,
+           fill = model)) + 
+  geom_bar(stat = "identity") +
+  coord_flip()+
+  
+  labs(title = "Number of Cars per Models", 
+       x = "Model",
+       y = "Number of Cars") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+observation_plot
+
+```
+5.Plot the relationship between cyl - number of cylinders and displ - engine displacement using
+geom_point with aesthetic color = engine displacement. Title should be “Relationship between No. of Cylinders and Engine Displacement”.
+```{r}
+relationship_cyl_displ <- data.frame(Cylinder = data_mpg$cyl,
+                                     Engine_Displacement = data_mpg$displ)
+relationship_cyl_displ
+
+relationship_plot <- ggplot(relationship_cyl_displ,
+                            aes(x = Cylinder, y = Engine_Displacement, color = Engine_Displacement))+
+                              geom_point(aes(fill = Engine_Displacement))+
+                              labs(title = "Relationship between number of cylinders and engine displacement",
+                                   x = "No. of Cylinders",
+                                   y = "Engine Displacement")+
+                              theme(plot.title = element_text(hjust = 0.5))
+relationship_plot
+```
+5a. How would you describe its relationship? Show the codes and its result.
+Ans. When the number of cylinder increases the displacement also increases.
+
+6. Plot the relationship between displ (engine displacement) and hwy(highway miles per gallon). Mapped
+it with a continuous variable you have identified in #1-c. What is its result? Why it produced such
+output?
+```{r}
+relationship_displ_cyl <- ggplot(data_mpg,
+                                 aes(x = displ, 
+                                     y = hwy, 
+                                     color = cty)) +
+  geom_point() +
+  labs(title = "Relationship between Engine Displacement and Highway MPG",
+       x = "Engine Displacement",
+       y = "Highway MPG") +
+  scale_color_gradient(low = "green",
+                       high = "orange")
+  
+
+relationship_displ_cyl
+
+```
+
+6.
+```{r}
+
+library(readr)
+traffic_data <- read_csv("/cloud/project/RWorksheets_Bagilidad#4/RWorksheets#4C/traffic.csv")
+
+```
+
+6a. How many numbers of observation does it have? What are the variables of the traffic dataset the Show
+your answer.
+
+```{r}
+observation_traffic <- colnames(traffic_data)
+
+length_traffic <- length(observation_traffic)
+
+cat("The number of observations are: ",length_traffic)
+```
+b. subset the traffic dataset into junctions. What is the R codes and its output?
+
+```{r}
+junction_sub1 <- subset(traffic_data, Junction == 1)
+junction_sub1
+junctions_sub2 <- subset(traffic_data, Junction == 2)
+junctions_sub2
+junctions_sub3 <- subset(traffic_data, Junction == 3)
+junctions_sub3
+junctions_sub4 <- subset(traffic_data, Junction == 4)
+junctions_sub4
+
+```
+
+6c. Plot each junction in a using geom_line(). Show your solution and output.
+```{r}
+par(mfrow = c(1,4))
+junctionPlot_1 <- ggplot(junction_sub1, 
+                          aes(x = as.Date(junction_sub1$DateTime), 
+                              y = Vehicles)) + 
+   
+  geom_line() +
+  scale_x_date(date_labels = "%b-%Y") + theme(legend.position = "none") +
+  labs(title = "Junction 1", x = "Time", y = "Number of Vehicles")
+
+junctionPlot_1
+
+junctionPlot_2 <- ggplot(junctions_sub2, 
+                          aes(x = as.Date(junctions_sub2$DateTime), 
+                              y = Vehicles)) + 
+  geom_line() +
+  scale_x_date(date_labels = "%b-%Y") + theme(legend.position = "none") +
+  labs(title = "Junction 2", x = "Time", y = "Number of Vehicles")
+
+junctionPlot_2
+
+junctionPlot_3 <- ggplot(junctions_sub3, 
+                          aes(x = as.Date(junctions_sub3$DateTime), 
+                              y = Vehicles)) + 
+  geom_line() +
+  scale_x_date(date_labels = "%b-%Y") + theme(legend.position = "none") +
+  labs(title = "Junction 3", x = "Time", y = "Number of Vehicles")
+
+junctionPlot_3
+
+junctionPlot_4 <- ggplot(junctions_sub4, 
+                          aes(x = as.Date(junctions_sub4$DateTime), 
+                              y = Vehicles)) + 
+  geom_line() +
+  scale_x_date(date_labels = "%b-%Y") + theme(legend.position = "none") +
+  labs(title = "Junction 4", x = "Time", y = "Number of Vehicles")
+
+junctionPlot_4
+
+
+
+```
+7. From alexa_file.xlsx, import it to your environment.
+
+```{r}
+library(readxl)
+alexa_file_1 <- read_excel("/cloud/project/RWorksheets_Bagilidad#4/RWorksheets#4C/alexa_file (1).xlsx")
+View(alexa_file_1_)
+```
+
+7a. How many observations does alexa_file has? What about the number of columns? Show your solution
+and answer.
+```{r}
+observation_alex <- nrow(alexa_file_1)
+
+
+cat("Numbers of Observations: ", observation_alex,"\n")
+
+columns_alex <- ncol(alexa_file_1)
+
+
+cat("Numbers of Columns: ", columns_alex)
+
+```
+
+
+7b. group the variations and get the total of each variations. Use dplyr package. Show solution and
+answer.
+
+```{r}
+library(dplyr)
+groupVar_alexa <- alexa_file_1 %>%
+  group_by(variation) %>%
+  summarise(Count_total = n())
+groupVar_alexa
+```
+
+7c. Plot the variations using the ggplot() function. What did you observe? Complete the details of the
+graph. Show solution and answer.
+```{r}
+alexaPlot <- ggplot(alexa_file_1,
+                    aes(x = variation,fill = variation))+
+  geom_bar() +
+  labs(title = "Variations",
+       x = "Variation",
+       y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+alexaPlot
+```
+7d. d. Plot a geom_line() with the date and the number of verified reviews. Complete the details of the
+graphs. Show your answer and solution.
+```{r}
+library(dplyr)
+
+alexa_file_1$date <- as.Date(alexa_file_1$date)
+
+alexa_file_1$month <- format(alexa_file_1$date, "%m")
+
+
+alexa_fileMonth <-alexa_file_1%>%
+  count(month)
+alexa_fileMonth
+
+
+alexa_file_monthly_reviews <- table(alexa_fileMonth)
+alexa_file_monthly_reviews
+
+alexa_file_plot <- ggplot(alexa_fileMonth, aes(x = month, y = n, group = 1)) +
+  geom_line(color = "purple") +
+  labs(title = "Number of Verified Reviews Over Time",
+       x = "Date",
+       y = "Number of Verified Reviews")
+
+alexa_file_plot
+```
+e. Get the relationship of variations and ratings. Which variations got the most highest in rating? Plot a
+graph to show its relationship. Show your solution and answer.
+```{r}
+
+alexa_variationRatings <- alexa_file_1 %>%
+  group_by(variation) %>%
+  summarise(average_rating = mean(rating))
+
+alexa_variationRatings
+
+topRatings <- alexa_variationRatings %>%
+  filter(average_rating == max(average_rating))
+
+topRatings 
+
+# The walnut finish variation has the highest rating
+
+ggplot(alexa_variationRatings, 
+       aes(x = variation, 
+       y = average_rating, 
+       fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Ratings by Variation",
+       x = "Variation",
+       y = "Average Rating")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
