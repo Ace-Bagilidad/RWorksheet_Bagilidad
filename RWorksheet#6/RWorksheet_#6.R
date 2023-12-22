@@ -35,8 +35,7 @@ orderedFactor <- factor(fertilizerLevels, levels = unique(fertilizerLevels))
 basicStats <- summary(orderedFactor)
 basicStats
 
-#3. Abdul Hassan, president of Floor Coverings Unlimited, has asked you to study the ex-
-  ercise levels undertaken by 10 subjects were “l”, “n”, “n”, “i”, “l” , “l”, “n”,“n”, “i”, “l” ; n=none, l=light, i=intense
+#3. Abdul Hassan, president of Floor Coverings Unlimited, has asked you to study the exercise levels undertaken by 10 subjects were “l”, “n”, “n”, “i”, “l” , “l”, “n”,“n”, “i”, “l” ; n=none, l=light, i=intense
 #a. What is the best way to represent this in R?
   
   
@@ -56,7 +55,7 @@ basic_stats
              "vic", "vic", "act")
 #a. Apply the factor function and factor level. Describe the results.
 # A factor with levels matching the distinct values in the original character vector will be the outcome. Each level corresponds to a distinct state or region and is arranged alphabetically.
-```{r}
+
 state <- c("tas", "sa", "qld", "nsw", "nsw", "nt", "wa", "wa", "qld",
            "vic", "nsw", "vic", "qld", "qld", "sa", "tas", "sa", "nt",
            "wa", "vic", "qld", "nsw", "nsw", "wa", "sa", "act", "nsw",
@@ -68,8 +67,7 @@ summaryState <- summary(stateFactor)
 summaryState
 
 #5. From #4 - continuation:
-#• Suppose we have the incomes of the same tax accountants in another vector (in suitably
-                                                                             large units of money)
+#• Suppose we have the incomes of the same tax accountants in another vector (in suitably large units of money)
 incomes <- c(60, 49, 40, 61, 64, 60, 59, 54,
              62, 69, 70, 42, 56, 61, 61, 61, 58, 51, 48,
              65, 49, 49, 41, 48, 52, 46, 59, 46, 58, 43)
@@ -160,7 +158,7 @@ clump_thickness <- sd(breastcancer_wisconsin$clump_thickness) / sqrt(length(brea
 cat("d.1 Standard Error of the Mean for Clump Thickness:", clump_thickness, "\n")
 
 # d.2 Coefficient of variability for Marginal Adhesion.
-marginal_adhesion <- sd(breastcancer_wisconsin$marginal_adhesion) / mean(breastcancer_wisconsin$marginal_adhesion) * 100
+marginal_adhesion <- sd(breastcancer_wisconsin$marginal_adhesion) / mean(breastcancer_wisconsin$marginal_adhesion) 
 cat("d.2 Coefficient of Variability for Marginal Adhesion:", marginal_adhesion, "%\n")
 
 # d.3 Number of null values of Bare Nuclei.
@@ -184,11 +182,11 @@ cat("d.5 Confidence Interval for the Mean of Uniformity of Cell Shape:", uniform
 #Ans. There are 11 attributes in the data set.
 
 #e. Find the percentage of respondents who are malignant. Interpret the results
-Ans. 
+#Assuming 4 is malignant
 
-percentage_malignant <- (sum(breastcancer_wisconsin$class == "malignant")/ nrow(breastcancer_wisconsin)) * 100
+percentage_malignant <- (sum(breastcancer_wisconsin$class == 4)/ nrow(breastcancer_wisconsin)) * 100
 cat("The percentage of respondents who are malignant are: ",percentage_malignant,"%")
-```
+
 # 9. Export the data abalone to the Microsoft excel file. Copy the codes.
 install.packages("AppliedPredictiveModeling")
 library("AppliedPredictiveModeling")
@@ -209,4 +207,3 @@ summary(abalone)
 library(xlsx)
 
 #write.xlsx(abalone, "abalone.xlsx")
-```
